@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- header section -->
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#.">MYBLOG</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse d-lg-flex justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/newpost">
+                  <i class="fa-solid fa-pen-to-square px-2"></i>   
+                  New Post</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link fs-6" href="/login">
+                  <i class="fa-solid fa-arrow-right-to-bracket px-2"></i>  
+                  Login</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+        <!-- <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">MYBLOG</a>
+              <ul class="nav text-white mx-5">
+                <li class="nav-item">
+                  <a class="nav-link text-white fs-6" aria-current="page" href="#">
+                    <i class="fa-solid fa-pen-to-square px-2"></i>  
+                        <span>New Post</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white fs-6" href="#">
+                    <i class="fa-solid fa-arrow-right-to-bracket text-white px-2"></i>  
+                    Log in</a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+    </div> -->
+    </header>
+
+    <!-- hero section -->
+
+    <section class="container-fluid" style="background-color:#D2E9FF; height: 50vh;">
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="mx-auto mt-5 my-5 " style="width: 60%;">
+                <p class="fs-3 fw-bold mb-1">A blogging website for</p>
+                <p class="fs-1 fw-bolder">EVERYONE</p>
+                
+                    <a href="/login"> <button type="button" class="btn btn-primary rounded-pill">
+                      <i class="fa-solid fa-circle-chevron-right"></i>
+                          Get Started</button></a>
+            </div>
+            </div>
+            <div class="col-6 d-none d-lg-block">
+                <img src="/assets/images//Blogging-pana.svg" class="mx-auto" width="100%" height="250px" alt="blogging">
+            </div>
+        </div>
+    </section>
+
+    <!-- main section -->
+    <section>
+        <div class="mt-5 d-flex justify-content-between">
+            <div class="mt-3"style="border-top: 1px solid #E8E9EC; width:420px">
+            </div>
+        
+        <p class="text-center fs-4 fw-bold">Most recent posts</p>
+        <div class="mt-3"style="border-top: 1px solid #E8E9EC; width: 420px"></div>
+    </div>
+
+    <div class="container mt-2" align="center">
+        <div class="row gy-4">
+
+            <% allPosts.forEach((post) => { %>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+              <div class="card" style="width: 19rem;">
+                  <img src="<%= post.img %>" class="card-img-top" alt="img">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= post.title %></h5>
+                    <p class="card-text"><%= post.content %></p>
+                  </div>
+                </div> 
+                </div>
+                <% }) %>        
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+
+    <div class="card-footer text-white bg-dark mt-3" style="text-align: center; padding: 20px;">
+        &copy; WAAW Blog 2022 by Godswill Uchechi
+      </div>
+
+</body>
+</html>
