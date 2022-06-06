@@ -12,7 +12,7 @@ const bcrypt = require('bcryptjs');
 
 mongoose.connect("mongodb://localhost/MyBlog")
 .then(response => console.log('Database Connected Successfully'))
-.catch(error => console.log(`Database connection: ${error}`))
+.catch(error => console.log(`Database connection: ${error}`))     
 
 
 // Morgan setup
