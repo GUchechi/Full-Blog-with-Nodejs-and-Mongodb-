@@ -15,64 +15,45 @@
     
     
 
-    <!-- header section -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="/">MYBLOG</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-lg-flex justify-content-end" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#.">
-                    <i class="fa-solid fa-pen-to-square px-2"></i>   
-                    New Post</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link fs-6" href="/login">
-                    <i class="fa-solid fa-arrow-right-to-bracket px-2"></i>  
-                    Login</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-    </header>
+      <!-- Header section -->
+   <%- include("./navbar.ejs") -%>
+
+    <!-- Flash messages -->
+    <%- include("./messages.ejs") -%>
+
 
     <!-- main section -->
     <div class="card mx-auto mt-5 py-5 px-5 shadow-lg" style="width:60%; height: 140vh;">
         <div>
             <p class="fs-3 fw-bold text-center">Sign Up for Free</p>
         </div>
-    <form class="mt-5">
+    <form method="post" action="/user/register" class="mt-5">
         <div class="mb-4">
           <label for="exampleInputEmail1" class="form-label">Username</label>
-          <input type="email" class="form-control rounded-pill" id="exampleInputUsername" aria-describedby="emailHelp">
+          <input type="text" name="username" class="form-control" id="exampleInputUsername" aria-describedby="emailHelp">
         </div>
         <div class="mb-4">
           <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input type="password"  class=" form-control rounded-pill" id="exampleInputPassword1">
+          <input type="password" name="password"  class=" form-control rounded-pill" id="exampleInputPassword1">
         </div>
         <div class="mb-4">
             <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
-            <input type="password" class="form-control rounded-pill" id="exampleInputConfirmPassword1">
+            <input type="password" name="confirmPassword" class="form-control rounded-pill" id="exampleInputConfirmPassword1">
           </div>
           <div class="mb-4">
             <label for="exampleInputPassword1" class="form-label">Email</label>
-            <input type="email" class="form-control rounded-pill" id="exampleInputEmail1">
+            <input type="email" name="email" class="form-control rounded-pill" id="exampleInputEmail1">
           </div>
           <div class="mb-4">
             <label for="exampleInputPassword1" class="form-label">Summary</label>
-            <input type="summary" class="form-control rounded-pill" id="exampleInputSummary1">
+            <input type="summary" name="summary" class="form-control rounded-pill" id="exampleInputSummary1">
           </div>
           <div class="mb-4">
             <label for="exampleInputPassword1" class="form-label">Input URL</label>
-            <input type="file" class="form-control rounded-pill" id="exampleInputURL">
+            <input type="file" name="image" class="form-control rounded-pill" id="exampleInputURL">
           </div>
           <div class="d-grid">
-            <button type="submit" class="btn btn-primary btn-lg rounded-4">Sign Up
+            <button type="submit" name="submit" class="btn btn-primary btn-lg rounded-4">Sign Up
 
             </button>
          </div>
@@ -81,8 +62,8 @@
              </form>
       </div>
 
-      <div class="card-footer text-white bg-dark mt-3 " style="text-align: center; padding: 20px;">
-        &copy; WAAW Blog 2022 by Godswill Uchechi
-    </div>
+       <!-- Footer session -->
+    <%- include("./footer.ejs") -%>
+   
 </body>
 </html>

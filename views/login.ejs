@@ -11,47 +11,26 @@
 </head>
 <body>
     
-    <!-- header section -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="/">MYBLOG</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-lg-flex justify-content-end" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="/newpost">
-                    <i class="fa-solid fa-pen-to-square px-2"></i>   
-                    New Post</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link fs-6" href="#.">
-                    <i class="fa-solid fa-arrow-right-to-bracket px-2"></i>  
-                    Login</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-    </header>
+      <!-- Header section -->
+   <%- include("./navbar.ejs") -%>
 
+       <!-- Flash messages -->
+    <%- include("./messages.ejs") -%>
         <!-- main section -->
     <div class="d-flex" style="background-color: #F0F2F5; height: 90vh;">
         <div class="" style="width: 50%;">
             <div class="card mx-auto mt-5 shadow-lg" style="width: 80%; height:80%;">
-                <form class="mx-auto mt-5" style="width: 80%;">
+                <form method="post" action="/user/login" class="mx-auto mt-5" style="width: 80%;">
                     <div class="mb-4">
                          <label for="exampleInputEmail1" class="form-label mb-2">Email address</label>
-                         <input type="email" class="form-control rounded-pill" id="exampleInputEmail1" aria-describedby="emailHelp">
+                         <input type="email" name="email" class="form-control rounded-pill" id="exampleInputEmail1" aria-describedby="emailHelp">
                      </div>
                      <div class="mb-4">
                         <label for="exampleInputPassword1" class="form-label mb-2">Password</label>
-                        <input type="password" class="form-control rounded-pill" id="exampleInputPassword1">
+                        <input type="password" name="password" class="form-control rounded-pill" id="exampleInputPassword1">
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg rounded-4">Log In
+                        <button type="submit" name="submit" class="btn btn-primary btn-lg rounded-4">Log In
 
                         </button>
                     </div>
@@ -72,9 +51,8 @@
         </div>
     </div>
 
-    <div class="card-footer text-white bg-dark " style="text-align: center; padding: 20px;">
-        &copy; WAAW Blog 2022 by Godswill Uchechi
-    </div>
-      
+      <!-- Footer session -->
+    <%- include("./footer.ejs") -%>
+    
 </body>
 </html>

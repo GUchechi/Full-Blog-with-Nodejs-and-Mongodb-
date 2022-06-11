@@ -14,32 +14,8 @@
 <body>
     
     
-    <!-- header section -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="/">MYBLOG</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-lg-flex justify-content-end" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="#.">
-                    <i class="fa-solid fa-pen-to-square px-2"></i>   
-                    New Post</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link fs-6" href="/login">
-                    <i class="fa-solid fa-arrow-right-to-bracket px-2"></i>  
-                    Login</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-    </header>
-
+      <!-- Header section -->
+   <%- include("./navbar.ejs") -%>
     <!-- main section -->
     <div class="card mx-auto mt-5 py-5 px-5 shadow-lg" style="width:60%; height: 100vh;">
         <div>
@@ -65,10 +41,8 @@
          
     </form>
       </div>
-
-      <div class="card-footer text-white bg-dark mt-5" style="text-align: center; padding: 20px;">
-        &copy; WAAW Blog 2022 by Godswill Uchechi
-    </div>
-
+ <!-- Footer session -->
+ <%- include("./footer.ejs") -%>
+   
 </body>
 </html>

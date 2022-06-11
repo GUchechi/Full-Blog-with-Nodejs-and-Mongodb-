@@ -1,0 +1,16 @@
+
+<!-- Success message -->
+<% if (success_message && success_message.length > 0) { %>
+    <div class="alert alert-success" role="alert">
+        <%= success_message %>
+    </div>
+<% } %>
+
+<!-- Danger message -->
+<% if(error_message && error_message.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+       <%= error_message %>
+    </div>
+<% } %>
+
+
