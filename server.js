@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 7000;
 const logger = require('morgan');
-const path = require('path');
+const path = require('path'); 
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const User = require('./models/User.js');
@@ -11,10 +11,28 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const { globalVariables } = require('./config/globalConfig');
-const passport = require ('passport');
+const passport = require ('passport'); 
 const LocalStrategy = require ('passport-local').Strategy;
-const {isLoggedIn} = require('./config/authorization')
+const {isLoggedIn} = require('./config/authorization') 
+const multer  = require('multer'); 
+const cloudinary = require('cloudinary').v2;
 
+// Setting Up Multer
+const storage = multer.diskStorage({
+    filename: function( req, file, callback) {
+        callback(null, Date.now + file.originalname)
+    }
+});
+const upload = multer({ storage: storage })
+
+// SetUp Cloudinary upload
+
+cloudinary.config({
+    cloud_name: 'dwjjwyahu',
+    api_key: '477949661957967',
+    api_secret: 'k4OhhSILFuZM1uEjKyMURyv9sT0'
+});
+   
 // DB connection
 
 mongoose.connect("mongodb://localhost/MyBlog") 
@@ -35,9 +53,9 @@ mongoose.connect("mongodb://localhost/MyBlog")
         },
         store: MongoStore.create({
           mongoUrl: 'mongodb://localhost/MyBlog',
-          ttl: 365 * 24 * 60 * 60 // = 14 days. Default
+          ttl: 365 * 24 * 60 * 60 // =  Default
         })
-      }));
+      })); 
 
     //   Passport configuration
       app.use(passport.initialize());
@@ -157,9 +175,25 @@ app.post('/user/login', passport.authenticate('local' , {
     successRedirect: '/',
     session: true
 }))
-
+// route for post
 app.get('/newpost', (req, res) => {
-    res.render("newpost")
+    res.render("newpost") 
+});
+
+app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) => {
+    let { title, content } = req.body;
+    let mediaType = '';
+    if (req.file.mimetype === 'video/mp4') {
+        mediaType = 'video';        
+    } else {
+        mediaType = 'image';
+    }
+
+    const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+    if (!uploadedFile) {
+        req.flash("error-message", "Error while uploading file!!!");
+            return res.redirect("back");
+    }
 });
 
 app.get('/viewpost', (req, res) => {  
@@ -218,4 +252,4 @@ app.get('/user/profile', isLoggedIn, (req, res) => {
     res.render("profile")
 });
 
-app.listen(port,() => console.log(`server running on ${port}`));
+app.listen(port,() => console.log(`server running on ${port}`));  

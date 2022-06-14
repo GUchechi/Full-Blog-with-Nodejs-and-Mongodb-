@@ -21,18 +21,18 @@
         <div>
             <p class="fs-3 fw-bold text-start">Create a new post</p>
         </div>
-    <form class="mt-5">
+    <form method="post" action="/newpost" enctype="multipart/form-data" class="mt-5">
         <div class="mb-4">
           <label for="exampleInputEmail1" class="form-label">Title</label>
-          <input type="email" class="form-control rounded-pill" id="exampleInputTitle1" aria-describedby="emailHelp">
+          <input name="title" type="text" class="form-control rounded-pill" id="exampleInputTitle1" aria-describedby="emailHelp"  required>
         </div>
         <div class="mb-4">
             <label for="exampleFormControlTextarea1" class="form-label">Content</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="5" required></textarea>
           </div>
           <div class="mb-4">
-            <label for="exampleInputPassword1" class="form-label">Input URL</label>
-            <input type="file" class="form-control rounded-pill" id="exampleInputURL">
+            <label for="exampleInputPassword1" class="form-label">Image or Video File</label>
+            <input name="mediafile" type="file" accept=".png, .jpg, .jpeg .mp4" class="form-control rounded-pill" id="exampleInputURL" required>
           </div>
           <div class="mb-4">
             <button type="submit" class="btn btn-primary btn-lg rounded-4">Create Post</button>&nbsp
@@ -40,7 +40,7 @@
          </div>
          
     </form>
-      </div>
+      </div> 
  <!-- Footer session -->
  <%- include("./footer.ejs") -%>
    

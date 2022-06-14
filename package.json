@@ -17,6 +17,7 @@
   "dependencies": {
     "-": "^0.0.1",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.30.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",
     "cookie-parser": "^1.4.6",
@@ -27,6 +28,7 @@
     "local": "^0.3.3",
     "mongoose": "^6.3.5",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0"
   }
