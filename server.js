@@ -6,6 +6,7 @@ const path = require('path');
 const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const User = require('./models/User.js');
+const Post = require('./models/Post.js');
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser')
 const session = require('express-session');
@@ -192,10 +193,24 @@ app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) =>
     const uploadedFile = await cloudinary.uploader.upload(req.file.path);
     if (!uploadedFile) {
         req.flash("error-message", "Error while uploading file!!!");
-            return res.redirect("back");
-    }
-});
+            return res.redirect("back")
 
+        }
+         // Create a new instance for a new post
+         let newPost = new Post({
+            title,
+            content,
+            mediaType,
+            mediaFile: uploadedFile.secure_url         
+         });
+            await newPost.save();
+
+            req.flash('success-message', 'successfully uploaded');
+            res.redirect('back')
+    });
+
+    // Create Route for view Post
+    
 app.get('/viewpost', (req, res) => {  
     res.render("viewpost") 
 }); 
