@@ -198,7 +198,7 @@ app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) =>
         }
          // Create a new instance for a new post
          let newPost = new Post({
-            title,
+            title, 
             content,
             mediaType,
             mediaFile: uploadedFile.secure_url         
@@ -206,11 +206,11 @@ app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) =>
             await newPost.save();
 
             req.flash('success-message', 'successfully uploaded');
-            res.redirect('back')
+            res.redirect('back') 
     });
 
     // Create Route for view Post
-    
+
 app.get('/viewpost', (req, res) => {  
     res.render("viewpost") 
 }); 
