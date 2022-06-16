@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 7000;
+const port = process.env.PORT || 7000;
 const logger = require('morgan');
 const path = require('path'); 
 const flash = require('connect-flash');
@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const User = require('./models/User.js');
 const Post = require('./models/Post.js');
 const bcrypt = require('bcryptjs');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser') 
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const { globalVariables } = require('./config/globalConfig');
@@ -17,6 +17,7 @@ const LocalStrategy = require ('passport-local').Strategy;
 const {isLoggedIn} = require('./config/authorization') 
 const multer  = require('multer'); 
 const cloudinary = require('cloudinary').v2;
+const moment = require('moment');
 
 // Setting Up Multer
 const storage = multer.diskStorage({
@@ -36,7 +37,7 @@ cloudinary.config({
    
 // DB connection
 
-mongoose.connect("mongodb://localhost/MyBlog") 
+mongoose.connect("mongodb+srv://Godswill:28thFeb@shaacohort2blog.ougwsba.mongodb.net/?retryWrites=true&w=majority") 
     .then(response => console.log('Database Connected Successfully'))
     .catch(error => console.log(`Database connection: ${error}`))    
     
@@ -53,7 +54,7 @@ mongoose.connect("mongodb://localhost/MyBlog")
             maxAge: Date.now() + 3600000
         },
         store: MongoStore.create({
-          mongoUrl: 'mongodb://localhost/MyBlog',
+          mongoUrl: 'mongodb+srv://Godswill:28thFeb@shaacohort2blog.ougwsba.mongodb.net/?retryWrites=true&w=majority',
           ttl: 365 * 24 * 60 * 60 // =  Default
         })
       })); 
@@ -107,71 +108,32 @@ app.use(logger('dev'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Teling the server to use public folder
+// Moment setUp
+app.locals.moment = moment;
+
+
+
+
+// Telling the server to use public folder
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json())
 app.use(express.urlencoded({ extended : true }))
 
 // Routers
-app.get('/', (req, res) => {
-    const allPosts = [
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-        {
-            img: '/assets/images/image1.jpg',
-            title: 'card title',
-            content:"Some quick example text to build on the card title and make up the bulk of the card's content."
-        },
-    ];
+app.get('/', async (req, res) => {
+    const allPosts = await Post.find({}).sort({_id: -1});
+    console.log(allPosts);
     res.render('home', {allPosts}); 
  
 });
 
 app.get('/login', (req, res) => {
-    res.render("login")
+    res.render("login") 
 }); 
 
 // Post route for login
-app.post('/user/login', passport.authenticate('local' , {
+app.post('/user/login', passport.authenticate('local' , { 
     failureRedirect: '/login',
     successRedirect: '/',
     session: true
@@ -190,7 +152,7 @@ app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) =>
         mediaType = 'image';
     }
 
-    const uploadedFile = await cloudinary.uploader.upload(req.file.path);
+    const uploadedFile = await cloudinary.uploader.upload(req.file.path, { resource_type: mediaType });
     if (!uploadedFile) {
         req.flash("error-message", "Error while uploading file!!!");
             return res.redirect("back")
@@ -201,9 +163,10 @@ app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) =>
             title, 
             content,
             mediaType,
-            mediaFile: uploadedFile.secure_url         
+            mediaFile: uploadedFile.secure_url,
+            author: req.user._id       
          });
-            await newPost.save();
+            await newPost.save();                                                                                 
 
             req.flash('success-message', 'successfully uploaded');
             res.redirect('back') 
@@ -211,8 +174,10 @@ app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) =>
 
     // Create Route for view Post
 
-app.get('/viewpost', (req, res) => {  
-    res.render("viewpost") 
+app.get('/viewpost/:postId',async (req, res) => {  
+    let singlePost = await Post.findOne({_id: req.params.postId}) .populate("author");
+    console.log(singlePost)
+    res.render("viewpost", { singlePost }); 
 }); 
 
 app.get('/register', (req, res) => {

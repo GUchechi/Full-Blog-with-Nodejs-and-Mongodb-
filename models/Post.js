@@ -15,7 +15,16 @@ const postSchema = new Schema({
 
     mediaFile: {
         type: String
-    }},
+    },
+
+     author: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+     },
+
+},
+
+    
 
     { timestamps: true});
     const Post = mongoose.model('post', postSchema);
