@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const mongoose = require('mongoose');
 const User = require('./models/User.js');
 const Post = require('./models/Post.js');
+const Comment = require('./models/Comment.js');
 const bcrypt = require('bcryptjs');
 const cookieParser = require('cookie-parser')  
 const session = require('express-session');
@@ -25,7 +26,7 @@ const storage = multer.diskStorage({
         callback(null, Date.now + file.originalname)
     }
 });
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage }) 
 
 // SetUp Cloudinary upload
 
@@ -138,24 +139,24 @@ app.post('/user/login', passport.authenticate('local' , {
     successRedirect: '/',
     session: true
 }))
-// route for post
+// route for post 
 app.get('/newpost', (req, res) => {
-    res.render("newpost") 
+    res.render("newpost")    
 });
 
 app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) => {
     let { title, content } = req.body;
     let mediaType = '';
     if (req.file.mimetype === 'video/mp4') {
-        mediaType = 'video';        
+        mediaType = 'video';         
     } else {
-        mediaType = 'image';
-    }
+        mediaType = 'image';  
+    } 
 
     const uploadedFile = await cloudinary.uploader.upload(req.file.path, { resource_type: mediaType });
     if (!uploadedFile) {
         req.flash("error-message", "Error while uploading file!!!");
-            return res.redirect("back")
+            return res.redirect("back")  
 
         }
          // Create a new instance for a new post
@@ -175,10 +176,18 @@ app.post('/newpost', isLoggedIn, upload.single('mediafile'), async (req, res) =>
     // Create Route for view Post
 
 app.get('/viewpost/:postId',async (req, res) => {  
-    let singlePost = await Post.findOne({_id: req.params.postId}) .populate("author");
-    console.log(singlePost)
-    res.render("viewpost", { singlePost }); 
-}); 
+    let singlePost = await Post.findOne({_id: req.params.postId}) .populate("author")
+    .populate({
+        path: "comments",
+        populate: {
+            path: 'user'
+        }
+    });
+    const postComments = await Comment.find().sort({_id: -1});
+    // console.log(singlePost.comments)
+
+    res.render("viewpost", { singlePost, postComments }); 
+});        
 
 app.get('/register', (req, res) => {
     res.render("register")
@@ -214,6 +223,23 @@ app.post('/user/register', async (req, res) => {
       await newUser.save();
       req.flash('success-message', 'Registration successful');
       res.redirect('/login')
+
+});
+
+// Comment Route
+
+app.post('/comment/:postId', async (req, res) => {
+    let { comment } = req.body;
+    let post = await Post.findOne({ _id: req.params.postId });
+
+    let newComment = new Comment({ 
+        comment : comment,
+        user : req.user._id
+});
+await newComment.save();
+
+post.comments.push(newComment._id);
+await post.save();
 
 });
 

@@ -41,9 +41,9 @@
    </div>
    <div style="border-top: 2px solid #E8E9Ec;">
 </div>
-<form class="mt-3">
+<form class="mt-3" method="post" action="/comment/<%= singlePost._id %>">
     <div class="mb-3">
-      <input type="text" placeholder="Add a comment" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+      <input type="text" name="comment" placeholder="Add a comment" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
     </div>
     <div class="d-flex justify-content-end">
         <button type="submit" class="btn btn-success btn-sm">Comment</button>
@@ -51,31 +51,39 @@
   </form>
   <!-- comment section -->
   <div class="mb-5">
-      <p>1 comment</p>
-        <div class="card border-0" style="background-color: #e4e4e4; padding: 8px 8px 0px 8px;">
+      <p><%= singlePost.comments.length %> Comment(s)</p>
+      <% postComments.forEach((comment) => { %>
+        <div class="card border-0 mb-3" style="background-color: #e4e4e4; padding: 8px 8px 0px 8px;">
+            
             <div class=" d-flex justify-content-between">
                 <!-- left section -->
                     <div class="d-flex">
                         <i class="fa-solid fa-circle-user h1 text-secondary mr-3"></i> 
                         <div>
-                            <p style="margin-left: 5px;" class="ml-3 fw-bold">Jason</p>
+                            <p style="margin-left: 5px;" class="ml-3 fw-bold"><%= comment.user.username %></p>
                         
                         </div>  
                     </div>
-                <!-- right section -->
+                       <!-- right section -->  
                 <div>
-                    <small class="text-secondary"><%= moment(singlePost.createdAt).from() %></small><br>
+                    <small class="text-secondary">
+                        <%= moment(comment.createdAt).fromNow(); %>
+                     </small><br>
+                    <% if (user._id !== comment.user ) { %>
                     <i class="fa-solid fa-pen-to-square text-primary mx-4"></i>
-                    <i class="fa-solid fa-trash text-danger"></i>        
+                    <i class="fa-solid fa-trash text-danger"></i> 
+                    <% } %>       
                 </div>
            </div>
-           <p class="m-0">Nice Post</p>
-       </div>
+           <p class="m-0"><%= comment.comment %></p>
+           </div>
+    <% }) %>
+       
+             
+       
   </div>
     </div>
 </section>
- <!-- Footer session -->
- <%- include("./footer.ejs") -%>
    
 </body>
 </html>
